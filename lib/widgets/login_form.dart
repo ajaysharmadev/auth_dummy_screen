@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-
 class LogInScreen extends StatefulWidget {
-  const LogInScreen({ Key? key }) : super(key: key);
+  LogInScreen(this.isLoading, this.sumbitFn);
+  final bool isLoading;
+  final void Function(String email, String password, bool isLoggedIn, BuildContext ctx) sumbitFn;
 
   @override
   _LogInScreenState createState() => _LogInScreenState();
 }
-
-
 
 class _LogInScreenState extends State<LogInScreen> {
   FormGroup buildForm() => fb.group(<String, Object>{
@@ -19,6 +18,7 @@ class _LogInScreenState extends State<LogInScreen> {
         'password': ['', Validators.required, Validators.minLength(8)],
         'rememberMe': false,
       });
+
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
@@ -69,13 +69,16 @@ class _LogInScreenState extends State<LogInScreen> {
                 ],
               ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
+              if (widget.isLoading) CircularProgressIndicator(),
+              if (!widget.isLoading) ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                    primary: Colors.pink,
                     minimumSize: Size(double.infinity,
                         MediaQuery.of(context).size.height * 0.06)),
                 onPressed: () {
                   if (form.valid) {
-                    print(form.value);
+                    Map loginData = form.value;
+                    widget.sumbitFn(loginData['email'], loginData['password'], true, context);
                   } else {
                     form.markAllAsTouched();
                   }
@@ -85,10 +88,10 @@ class _LogInScreenState extends State<LogInScreen> {
               SizedBox(
                 height: deviceHeight * 0.02,
               ),
-              ElevatedButton(
+
+              if (!widget.isLoading) ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity,
-                        deviceHeight * 0.06)),
+                    minimumSize: Size(double.infinity, deviceHeight * 0.06)),
                 onPressed: () => form.resetState({
                   'email': ControlState<String>(value: null),
                   'password': ControlState<String>(value: null),

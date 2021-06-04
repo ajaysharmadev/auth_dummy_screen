@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "830273930821",
+    "project_id": "dummy-auth-form",
+    "storage_bucket": "dummy-auth-form.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830273930821:android:6090ee27c29854e4b5452c",
+        "android_client_info": {
+          "package_name": "com.example.login_ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830273930821-hmlbbtus16vp5021qun6h7m6n6elq69s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARPpIw43MSqEz48MexmxVO6BQdDZOCKag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830273930821-hmlbbtus16vp5021qun6h7m6n6elq69s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

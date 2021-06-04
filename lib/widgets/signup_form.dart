@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen(this.isLoading, this.sumbitFn);
+  final bool isLoading;
+  final void Function(
+    String email,
+    String password,
+    bool isLoggedIn,
+    BuildContext ctx,
+  ) sumbitFn;
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -66,13 +73,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //   ],
               // ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
+              if (widget.isLoading) CircularProgressIndicator(),
+
+              if (!widget.isLoading) ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: Size(double.infinity,
                         MediaQuery.of(context).size.height * 0.06)),
                 onPressed: () {
                   if (form.valid) {
-                    print(form.value);
+                    Map signupData = form.value;
+                    widget.sumbitFn(signupData['email'], signupData['password'],
+                        false, context);
                   } else {
                     form.markAllAsTouched();
                   }
@@ -82,10 +93,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: deviceHeight * 0.02,
               ),
-              ElevatedButton(
+              if (!widget.isLoading) ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity,
-                        deviceHeight * 0.06)),
+                    primary: Colors.pink,
+                    minimumSize: Size(double.infinity, deviceHeight * 0.06)),
                 onPressed: () => form.resetState({
                   'email': ControlState<String>(value: null),
                   'password': ControlState<String>(value: null),
