@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: StreamBuilder(
-        stream: FirebaseAuth.instance.userChanges(),
+        stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             
@@ -32,9 +32,6 @@ class MyApp extends StatelessWidget {
           return AuthScreen();
         },
       ),
-      routes: {
-        WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
-      },
     );
   }
 }

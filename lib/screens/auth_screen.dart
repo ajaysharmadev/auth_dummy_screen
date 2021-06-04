@@ -1,11 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:login_ui/screens/welcome_screen.dart';
+
 import 'package:login_ui/widgets/login_form.dart';
 import 'package:login_ui/widgets/signup_form.dart';
-import 'package:flutter/services.dart';
+
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -36,21 +36,37 @@ class _AuthScreenState extends State<AuthScreen> {
           isLogin = !isLogin;
         });
       }
-    } on PlatformException catch (err) {
+    }
+    // on PlatformException catch (err) {
+    //   var message = 'An error occured, please check your credentials.';
+    //   if (err.message != null) {
+    //     message = err.message!;
+    //   }
+    //   final snackBar = SnackBar(
+    //     content: Text(message),
+    //   );
+    //   print('message' + message);
+    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    //   // Scaffold.of(ctx).showSnackBar(
+    //   //   SnackBar(
+    //   //     content: Text(message),
+    //   //     backgroundColor: Theme.of(context).errorColor,
+    //   //   ),
+    //   // );
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // }
+    catch (err) {
       var message = 'An error occured, please check your credentials';
-      if (err.message != null) {
-        message = err.message!;
+      if (err != null) {
+        message = err.toString();
       }
-      Scaffold.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Theme.of(context).errorColor,
-        ),
+      final snackBar = SnackBar(
+        content: Text(message),
       );
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (err) {
+      print('message' + message);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print(err);
       setState(() {
         _isLoading = false;
@@ -67,7 +83,9 @@ class _AuthScreenState extends State<AuthScreen> {
         width: deviceWidth,
         height: deviceHeight,
         child: Center(
-          child: Container(
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeIn,
             width: deviceWidth,
             height: isLogin ? deviceHeight * 0.8 : deviceHeight * 0.731,
             padding: EdgeInsets.symmetric(
